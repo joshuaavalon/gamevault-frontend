@@ -38,4 +38,12 @@
 
 @utility prose {
   line-height: 1.3;
+
+  code {
+    &::before,
+    &::after {
+      content: none;
+    }
+  }
 }
+
