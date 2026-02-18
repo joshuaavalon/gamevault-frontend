@@ -182,7 +182,7 @@ export default function GameView() {
   const handleDirectDownload = useCallback(() => {
     if (!game) return;
     startDownload(game.id, `${title || game.title}.zip`);
-    
+
     // Show global alert notification
     showAlert({
       title: `Added ${title || game.title} to the download queue`
@@ -191,7 +191,7 @@ export default function GameView() {
 
   const handleTauriDownload = useCallback(async () => {
     if (!game) return;
-    
+
     try {
       // Get download path from localStorage
       const downloadPath = localStorage.getItem('tauri_download_path');
@@ -202,7 +202,7 @@ export default function GameView() {
 
       // Start download tracking
       startDownload(game.id, `${title || game.title}.zip`);
-      
+
       // Show global alert notification
       showAlert({
         title: `Added ${title || game.title} to the download queue`
@@ -464,14 +464,16 @@ export default function GameView() {
               <div className="text-sm leading-relaxed space-y-4 min-h-[180px]">
                 {detailsTab === 'description' && (
                   description ? (
-                    <p className="whitespace-pre-line text-zinc-700 dark:text-zinc-300">{description}</p>
+                    <div className="prose dark:prose-invert max-w-none">
+                      <Markdown>{description}</Markdown>
+                    </div>
                   ) : (
                     <p className="italic text-zinc-500">No description available.</p>
                   )
                 )}
                 {detailsTab === 'notes' && (
                   notes ? (
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                    <div className="prose dark:prose-invert max-w-none">
                       <Markdown>{notes}</Markdown>
                     </div>
                   ) : (
@@ -604,7 +606,7 @@ export default function GameView() {
           </div>
         </div>
       )}
-      
+
       {/* Game Settings Modal */}
       {settingsOpen && game && (
         <GameSettings

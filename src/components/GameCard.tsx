@@ -99,7 +99,7 @@ export function GameCard({ game }: { game: GamevaultGame }) {
       e.stopPropagation();
       if (!serverUrl) return;
       startDownload(game.id, filename);
-      
+
       // Show global alert notification
       showAlert({
         title: `Added ${localGame.metadata?.title || localGame.title} to the download queue`
@@ -113,10 +113,10 @@ export function GameCard({ game }: { game: GamevaultGame }) {
       e.preventDefault();
       e.stopPropagation();
       if (!serverUrl) return;
-      
+
       console.log('=== handleTauriDownload called ===');
       console.log('Game ID:', game.id, 'Filename:', filename);
-      
+
       try {
         // Get download path from localStorage
         const downloadPath = localStorage.getItem('tauri_download_path');
@@ -129,7 +129,7 @@ export function GameCard({ game }: { game: GamevaultGame }) {
         // Start download tracking
         console.log('Starting download...');
         startDownload(game.id, filename);
-        
+
         // Show global alert notification
         showAlert({
           title: `Added ${localGame.metadata?.title || localGame.title} to the download queue`
@@ -261,14 +261,14 @@ export function GameCard({ game }: { game: GamevaultGame }) {
         <h3 className="text-sm font-medium truncate" title={localGame.title}>
           {localGame.metadata?.title || localGame.title}
         </h3>
-        {(localGame as any).sort_title && (localGame as any).sort_title !== localGame.title && (
+        {/* {(localGame as any).sort_title && (localGame as any).sort_title !== localGame.title && (
           <p
             className="mt-0.5 text-xs text-fg-muted truncate"
             title={localGame.title}
           >
             {localGame.title}
           </p>
-        )}
+        )} */}
         {formattedSize && (
           <p className="mt-0.5 text-xs text-fg-muted" title={formattedSize}>
             {formattedSize}

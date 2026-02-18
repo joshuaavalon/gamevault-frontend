@@ -1,14 +1,16 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
+@import "./fonts.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: Inter, sans-serif;
+  --font-sans: Inter, "IBM Plex Sans JP", sans-serif;
   --font-sans--font-feature-settings: "cv11";
 
   --color-rose-50: #fcf4f4;
@@ -32,4 +34,8 @@
   a {
     @apply font-medium text-indigo-800 dark:text-indigo-200;
   }
+}
+
+@utility prose {
+  line-height: 1.3;
 }

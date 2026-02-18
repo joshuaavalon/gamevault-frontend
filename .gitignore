@@ -30,3 +30,4 @@ dist-ssr
 # React Router
 /.react-router/
 /build/
+/public/fonts/
