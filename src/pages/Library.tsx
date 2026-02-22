@@ -13,6 +13,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
+import { useSearchParams } from "react-router";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import {
   TrashIcon,
@@ -288,11 +289,14 @@ export default function Library() {
     [],
   );
 
+  const [searchParams] = useSearchParams();
+
   // Initialize from URL (first render)
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const params = new URL(window.location.href).searchParams;
+    const params = searchParams;
+    console.log(params)
 
     const q = params.get("q");
     if (q) setSearch(q);
@@ -321,34 +325,47 @@ export default function Library() {
     }
 
     const tags = getParamValues(params, "tags");
-    if (tags.length > 0) setSelectedTags(tags.map((t) => ({ id: t, name: t })));
+    setSelectedTags(tags.map((t) => ({ id: t, name: t })));
 
     const genres = getParamValues(params, "genres");
-    if (genres.length > 0)
-      setSelectedGenres(genres.map((g) => ({ id: g, name: g })));
+    setSelectedGenres(genres.map((g) => ({ id: g, name: g })));
 
     const developers = getParamValues(params, "developers");
-    if (developers.length > 0)
-      setSelectedDevelopers(developers.map((d) => ({ id: d, name: d })));
+    setSelectedDevelopers(developers.map((d) => ({ id: d, name: d })));
 
     const publishers = getParamValues(params, "publishers");
-    if (publishers.length > 0)
-      setSelectedPublishers(publishers.map((p) => ({ id: p, name: p })));
+    setSelectedPublishers(publishers.map((p) => ({ id: p, name: p })));
 
     const state = params.get("state");
-    if (state && isProgressState(state)) setSelectedGameState(state);
+    if (state && isProgressState(state)) {
+      setSelectedGameState(state)
+    } else {
+      setSelectedGameState("")
+    };
 
     const after = params.get("releasedAfter");
-    if (after) setReleaseDateFrom(after);
+    if (after) {
+      setReleaseDateFrom(after);
+    } else {
+      setReleaseDateFrom("");
+    }
 
     const before = params.get("releasedBefore");
-    if (before) setReleaseDateTo(before);
+    if (before) {
+      setReleaseDateTo(before);
+    } else {
+      setReleaseDateTo("");
+    }
 
     const ea = params.get("earlyAccess");
-    if (ea && isEarlyAccess(ea)) setEarlyAccess(ea);
+    if (ea && isEarlyAccess(ea)) {
+      setEarlyAccess(ea);
+    } else {
+      setEarlyAccess("all");
+    }
 
     urlInitializedRef.current = true;
-  }, [getParamValues, isBookmark, isEarlyAccess, isGameType, isProgressState]);
+  }, [searchParams, getParamValues, isBookmark, isEarlyAccess, isGameType, isProgressState]);
 
   // Sync all filters into URL search params for shareable links (debounced)
   useEffect(() => {
