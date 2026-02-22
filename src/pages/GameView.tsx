@@ -9,7 +9,7 @@ import { Listbox, ListboxOption, ListboxLabel } from "@tw/listbox";
 import Card from "@/components/Card";
 import { useDownloads } from "@/context/DownloadContext";
 import { useEffect, useMemo, useState, useCallback, useRef, useLayoutEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import { CloudArrowDownIcon, Cog8ToothIcon, ShareIcon, StarIcon as StarSolid, WrenchScrewdriverIcon, BuildingOffice2Icon, ShieldCheckIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarOutline, CalendarDaysIcon, GlobeAltIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
@@ -388,9 +388,15 @@ export default function GameView() {
                     <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-300 text-[10px] font-medium">Early Access</span>
                   ) : null}
                   {genres.map((g: string) => (
-                    <span key={g} className="px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-[10px] font-medium text-zinc-700 dark:text-zinc-200">
+                    <Link
+                      key={g}
+                      className="px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-[10px] font-medium text-zinc-700 dark:text-zinc-200"
+                      to={{
+                          pathname: "/library",
+                          search: "?genres=" + g
+                      }}>
                       {g}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               ) : null}
@@ -484,7 +490,15 @@ export default function GameView() {
                   tags && tags.length ? (
                     <div className="flex flex-wrap gap-2">
                       {tags.map(t => (
-                        <span key={t} className="px-2 py-1 rounded-md bg-zinc-200 dark:bg-zinc-700 text-xs font-medium text-zinc-700 dark:text-zinc-200">{t}</span>
+                        <Link
+                          key={t}
+                          className="px-2 py-1 rounded-md bg-zinc-200 dark:bg-zinc-700 text-xs font-medium text-zinc-700 dark:text-zinc-200"
+                          to={{
+                              pathname: "/library",
+                              search: "?tags=" + t
+                          }}>
+                          {t}
+                        </Link>
                       ))}
                     </div>
                   ) : (
@@ -535,14 +549,36 @@ export default function GameView() {
                   <WrenchScrewdriverIcon className="w-5 h-5 mt-0.5 text-zinc-500 dark:text-zinc-400" />
                   <div className="flex-1 min-w-0">
                     <div className="text-[11px] uppercase tracking-wide text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Developer{devNames.length > 1 ? 's' : ''}</div>
-                    <div className="font-medium text-zinc-800 dark:text-zinc-100 whitespace-nowrap truncate" title={devNames.length ? devNames.join(', ') : '—'}>{devNames.length ? devNames.join(', ') : '—'}</div>
+                    <div className="font-medium text-zinc-800 dark:text-zinc-100 whitespace-nowrap truncate" title={devNames.length ? devNames.join(', ') : '—'}>
+                      {!devNames.length ? '—' :
+                        devNames.map(name => <Link
+                          key={name}
+                          className="block"
+                          to={{
+                              pathname: "/library",
+                              search: "?developers=" + name
+                          }}>{name}</Link>
+                        )
+                      }
+                    </div>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <BuildingOffice2Icon className="w-5 h-5 mt-0.5 text-zinc-500 dark:text-zinc-400" />
                   <div className="flex-1 min-w-0">
                     <div className="text-[11px] uppercase tracking-wide text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Publisher{publisherNames.length > 1 ? 's' : ''}</div>
-                    <div className="font-medium text-zinc-800 dark:text-zinc-100 whitespace-nowrap truncate" title={publisherNames.length ? publisherNames.join(', ') : '—'}>{publisherNames.length ? publisherNames.join(', ') : '—'}</div>
+                    <div className="font-medium text-zinc-800 dark:text-zinc-100 whitespace-nowrap truncate" title={publisherNames.length ? publisherNames.join(', ') : '—'}>
+                      {!publisherNames.length ? '—' :
+                        publisherNames.map(name => <Link
+                          key={name}
+                          className="block"
+                          to={{
+                              pathname: "/library",
+                              search: "?publishers=" + name
+                          }}>{name}</Link>
+                        )
+                      }
+                    </div>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
